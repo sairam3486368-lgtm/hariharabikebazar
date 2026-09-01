@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hari Hara Bike Bazar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Load auth logic first to prevent flashing -->
+    <script src="js/auth.js"></script>
+</head>
+<body class="dashboard-body">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>HH Bike Bazar</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active" id="navDashboard">Dashboard</a></li>
+            <li><a href="#" id="navAddBike">Add New Bike</a></li>
+            <li><a href="#" id="navManageBikes">Manage Bikes</a></li>
+        </ul>
+        <button id="logoutBtn" class="logout-btn">
+            Logout
+        </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="top-bar">
+            <h1>Dashboard Overview</h1>
+            <div class="admin-profile">
+                Welcome, Admin
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="viewDashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Bikes Uploaded</h3>
+                    <div class="value" id="totalBikesCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Recent Uploads (Last 7 Days)</h3>
+                    <div class="value" id="recentBikesCount">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Bike View (Hidden by default) -->
+        <div id="viewAddBike" style="display: none;">
+            <div class="card">
+                <h2 class="card-title">Upload New Bike</h2>
+                <form id="addBikeForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="bikeName">Bike Model Name</label>
+                            <input type="text" id="bikeName" required placeholder="e.g. Royal Enfield Classic 350">
+                        </div>
+                        <div class="form-group">
+                            <label for="bikeBrand">Brand</label>
+                            <input type="text" id="bikeBrand" required placeholder="e.g. Royal Enfield">
+                        </div>
+                        <div class="form-group">
+                            <label for="bikePrice">Price (₹)</label>
+                            <input type="number" id="bikePrice" required placeholder="e.g. 150000">
+                        </div>
+                        <div class="form-group">
+                            <label for="bikeYear">Year of Manufacture</label>
+                            <input type="number" id="bikeYear" required placeholder="e.g. 2020">
+                        </div>
+                        <div class="form-group">
+                            <label for="bikeMileage">Mileage (km)</label>
+                            <input type="number" id="bikeMileage" required placeholder="e.g. 12000">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Bike Images (Amazon Style)</label>
+                            <div class="image-upload-grid">
+                                <div class="upload-zone" onclick="document.getElementById('add-file-0').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Primary View *</span>
+                                    <input type="file" id="add-file-0" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'add-preview-0')">
+                                    <img id="add-preview-0" class="zone-preview" style="display:none;">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('add-file-1').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Left Side</span>
+                                    <input type="file" id="add-file-1" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'add-preview-1')">
+                                    <img id="add-preview-1" class="zone-preview" style="display:none;">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('add-file-2').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Right Side</span>
+                                    <input type="file" id="add-file-2" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'add-preview-2')">
+                                    <img id="add-preview-2" class="zone-preview" style="display:none;">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('add-file-3').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Front View</span>
+                                    <input type="file" id="add-file-3" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'add-preview-3')">
+                                    <img id="add-preview-3" class="zone-preview" style="display:none;">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('add-file-4').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Back / Details</span>
+                                    <input type="file" id="add-file-4" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'add-preview-4')">
+                                    <img id="add-preview-4" class="zone-preview" style="display:none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="bikeDescription">Description</label>
+                            <input type="text" id="bikeDescription" placeholder="Short description about the bike's condition">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" style="margin-top: 1rem;">Upload Bike</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Bike View (Hidden by default) -->
+        <div id="viewEditBike" style="display: none;">
+            <div class="card">
+                <h2 class="card-title">Edit Bike Details</h2>
+                <form id="editBikeForm">
+                    <input type="hidden" id="editBikeId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="editBikeName">Bike Model Name</label>
+                            <input type="text" id="editBikeName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBikeBrand">Brand</label>
+                            <input type="text" id="editBikeBrand" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBikePrice">Price (₹)</label>
+                            <input type="number" id="editBikePrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBikeYear">Year of Manufacture</label>
+                            <input type="number" id="editBikeYear" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editBikeMileage">Mileage (km)</label>
+                            <input type="number" id="editBikeMileage" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Bike Images (Amazon Style)</label>
+                            <div class="image-upload-grid">
+                                <div class="upload-zone" onclick="document.getElementById('edit-file-0').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Primary View *</span>
+                                    <input type="file" id="edit-file-0" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'edit-preview-0')">
+                                    <img id="edit-preview-0" class="zone-preview" style="display:none;">
+                                    <input type="hidden" id="edit-existing-0">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('edit-file-1').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Left Side</span>
+                                    <input type="file" id="edit-file-1" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'edit-preview-1')">
+                                    <img id="edit-preview-1" class="zone-preview" style="display:none;">
+                                    <input type="hidden" id="edit-existing-1">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('edit-file-2').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Right Side</span>
+                                    <input type="file" id="edit-file-2" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'edit-preview-2')">
+                                    <img id="edit-preview-2" class="zone-preview" style="display:none;">
+                                    <input type="hidden" id="edit-existing-2">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('edit-file-3').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Front View</span>
+                                    <input type="file" id="edit-file-3" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'edit-preview-3')">
+                                    <img id="edit-preview-3" class="zone-preview" style="display:none;">
+                                    <input type="hidden" id="edit-existing-3">
+                                </div>
+                                <div class="upload-zone" onclick="document.getElementById('edit-file-4').click()">
+                                    <span class="plus-icon">+</span>
+                                    <span class="zone-label">Back / Details</span>
+                                    <input type="file" id="edit-file-4" accept="image/*" style="display:none;" onchange="previewGridImage(this, 'edit-preview-4')">
+                                    <img id="edit-preview-4" class="zone-preview" style="display:none;">
+                                    <input type="hidden" id="edit-existing-4">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="editBikeDescription">Description</label>
+                            <input type="text" id="editBikeDescription">
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top: 1rem;">
+                        <button type="submit" class="btn-primary">Save Changes</button>
+                        <button type="button" class="btn-primary" style="background:#6b7280;" onclick="document.getElementById('navManageBikes').click()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Manage Bikes View (Hidden by default) -->
+        <div id="viewManageBikes" style="display: none;">
+            <div class="card">
+                <h2 class="card-title">Uploaded Bikes</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Model Name</th>
+                                <th>Brand</th>
+                                <th>Year</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bikesTableBody">
+                            <!-- Rows will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
