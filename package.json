@@ -1,0 +1,10 @@
+{
+  "name": "hari-hara-bike-bazar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "cd backend && npm install",
+    "dev": "cd backend && npm run dev"
+  }
+}
