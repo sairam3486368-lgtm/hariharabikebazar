@@ -37,7 +37,7 @@ function applyConfigToDOM() {
   });
 
   document.querySelectorAll("[data-whatsapp-display]").forEach((el) => {
-    el.textContent = CONFIG.whatsappDisplay || CONFIG.phoneDisplay || CONFIG.whatsapp || "+91 63059 63844";
+    el.textContent = CONFIG.whatsappDisplay || CONFIG.whatsapp || "+91 90520 69191";
   });
 
   document.querySelectorAll("[data-contact-address]").forEach((el) => {
