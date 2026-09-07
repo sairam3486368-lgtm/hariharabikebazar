@@ -20,7 +20,7 @@ const CONFIG = {
   // --- CONTACT (fill in real numbers, then every button site-wide updates) ---
   phone: "+916305963844",              // e.g. "+919999999999"
   phoneDisplay: "+91 63059 63844",    // displayed on screen
-  whatsapp: "919052069191",            // e.g. "919999999999" (no + , no spaces)
+  whatsapp: "9052069191",              // WhatsApp mobile number (9052069191)
   whatsappDisplay: "+91 90520 69191", // displayed on screen
   address: "Kukatpally, Hyderabad, Telangana",
   hours: "Mon – Sun: 9:30 AM – 8:30 PM",
@@ -91,8 +91,12 @@ function buildWhatsAppUrl(message) {
   if (number.length === 10) {
     number = "91" + number;
   }
-  const encoded = encodeURIComponent(message);
-  return `https://wa.me/${number}?text=${encoded}`;
+  if (!number) return "#";
+  if (message && String(message).trim()) {
+    const encoded = encodeURIComponent(String(message).trim());
+    return `https://wa.me/${number}?text=${encoded}`;
+  }
+  return `https://wa.me/${number}`;
 }
 
 // Helper: build a tel: link
