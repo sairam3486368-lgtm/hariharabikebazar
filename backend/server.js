@@ -29,6 +29,16 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
 });
 
+// Contact information endpoint
+app.get('/api/contact', (req, res) => {
+    res.status(200).json({
+        phone: process.env.PHONE_NUMBER || "6305963844",
+        phoneDisplay: "+91 63059 63844",
+        whatsapp: process.env.WHATSAPP_NUMBER || "9052069191",
+        whatsappDisplay: "+91 90520 69191"
+    });
+});
+
 // --- Authentication Routes ---
 app.post('/api/auth/signup', async (req, res) => {
     try {
