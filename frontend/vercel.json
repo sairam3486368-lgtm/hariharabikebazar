@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/html/index.html" },
+    { "source": "/index", "destination": "/html/index.html" },
+    { "source": "/bikes", "destination": "/html/bikes.html" },
+    { "source": "/bike", "destination": "/html/bike.html" },
+    { "source": "/sell-bike", "destination": "/html/sell-bike.html" },
+    { "source": "/finance", "destination": "/html/finance.html" },
+    { "source": "/branches", "destination": "/html/branches.html" },
+    { "source": "/about", "destination": "/html/about.html" },
+    { "source": "/contact", "destination": "/html/contact.html" },
+    { "source": "/privacy", "destination": "/html/privacy.html" },
+    { "source": "/terms", "destination": "/html/terms.html" },
+    { "source": "/404", "destination": "/html/404.html" },
+    { "source": "/:page.html", "destination": "/html/:page.html" }
+  ]
+}

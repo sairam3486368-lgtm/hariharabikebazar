@@ -1275,3 +1275,17 @@ html, body { max-width: 100%; }
 @media (min-width: 1024px) {
   .toast { bottom: 24px; }
 }
+
+/* Hide Netlify Drawer / Feedback / Deploy Preview toolbar */
+#netlify-drawer,
+netlify-drawer,
+.netlify-drawer,
+iframe#netlify-drawer,
+iframe[src*="netlify"],
+div[id*="netlify-drawer"],
+div[class*="netlify-drawer"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

@@ -1,0 +1,22 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/frontend/html/index.html" },
+    { "source": "/index", "destination": "/frontend/html/index.html" },
+    { "source": "/bikes", "destination": "/frontend/html/bikes.html" },
+    { "source": "/bike", "destination": "/frontend/html/bike.html" },
+    { "source": "/sell-bike", "destination": "/frontend/html/sell-bike.html" },
+    { "source": "/finance", "destination": "/frontend/html/finance.html" },
+    { "source": "/branches", "destination": "/frontend/html/branches.html" },
+    { "source": "/about", "destination": "/frontend/html/about.html" },
+    { "source": "/contact", "destination": "/frontend/html/contact.html" },
+    { "source": "/privacy", "destination": "/frontend/html/privacy.html" },
+    { "source": "/terms", "destination": "/frontend/html/terms.html" },
+    { "source": "/404", "destination": "/frontend/html/404.html" },
+    { "source": "/css/:path*", "destination": "/frontend/css/:path*" },
+    { "source": "/js/:path*", "destination": "/frontend/js/:path*" },
+    { "source": "/images/:path*", "destination": "/frontend/images/:path*" },
+    { "source": "/admin/:path*", "destination": "/frontend/admin/:path*" },
+    { "source": "/:page.html", "destination": "/frontend/html/:page.html" }
+  ]
+}

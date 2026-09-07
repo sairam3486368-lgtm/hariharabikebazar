@@ -99,7 +99,56 @@
         <h2 class="section-title">Featured Rides</h2>
         <p class="section-sub">A snapshot of what's currently available across our inventory.</p>
       </div>
-      <div class="featured-wrap" id="featured-grid"></div>
+      <style>
+        .marquee-container {
+          overflow: hidden;
+          width: 100%;
+          padding: 10px 0;
+        }
+        .marquee-track {
+          display: flex;
+          width: max-content;
+          animation: marqueeScroll 50s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+        .marquee-track .bike-card {
+          flex: 0 0 280px;
+          width: 280px;
+          margin-right: 20px;
+        }
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      </style>
+      <div class="marquee-container">
+        <div class="marquee-track">
+          <!-- First set -->
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb053.jpeg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb054.jpeg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb055.jpeg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb056.webp" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb057.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb058.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb059.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb060.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb061.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb062.jpg" alt="Bike" loading="lazy"></a></article>
+          <!-- Second set for seamless loop -->
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb053.jpeg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb054.jpeg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb055.jpeg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb056.webp" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb057.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb058.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb059.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb060.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb061.jpg" alt="Bike" loading="lazy"></a></article>
+          <article class="bike-card bike-card--image-only"><a class="bike-card-media" href="#"><img src="../images/bikes/bike-hhbb062.jpg" alt="Bike" loading="lazy"></a></article>
+        </div>
+      </div>
       <div class="load-more-wrap">
         <a href="bikes.html" class="btn btn-outline">View All Bikes</a>
       </div>

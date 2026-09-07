@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const username = loginForm.username.value;
             const password = loginForm.password.value;
             const submitBtn = loginForm.querySelector('button[type="submit"]');
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const username = signupForm.username.value;
             const password = signupForm.password.value;
             const submitBtn = signupForm.querySelector('button[type="submit"]');

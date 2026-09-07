@@ -7,10 +7,10 @@
 
 let __bikesCache = null;
 
-window.resolveImageSrc = function(imgStr) {
-    if(!imgStr) return "";
-    if(imgStr.startsWith('data:image') || imgStr.startsWith('http')) return imgStr;
-    return '../' + imgStr;
+window.resolveImageSrc = function (imgStr) {
+  if (!imgStr) return "";
+  if (imgStr.startsWith('data:image') || imgStr.startsWith('http')) return imgStr;
+  return '../' + imgStr;
 };
 
 function loadBikes() {
@@ -23,28 +23,28 @@ function loadBikes() {
     .then((data) => {
       // Map _id to id for frontend compatibility
       data.forEach(b => {
-          if(b._id) b.id = b._id;
-          if(!b.status) b.status = "available";
-          if(!b.location) b.location = "Hyderabad";
-          if(!b.km) b.km = parseInt(b.mileage || 0);
-          
-          if (!b.model) {
-              const lowerName = (b.name || "").toLowerCase();
-              const lowerBrand = (b.brand || "").toLowerCase();
-              if (lowerBrand && lowerName.startsWith(lowerBrand)) {
-                  b.model = (b.name || "").substring(lowerBrand.length).trim();
-              } else {
-                  b.model = b.name || "";
-              }
+        if (b._id) b.id = b._id;
+        if (!b.status) b.status = "available";
+        if (!b.location) b.location = "Hyderabad";
+        if (!b.km) b.km = parseInt(b.mileage || 0);
+
+        if (!b.model) {
+          const lowerName = (b.name || "").toLowerCase();
+          const lowerBrand = (b.brand || "").toLowerCase();
+          if (lowerBrand && lowerName.startsWith(lowerBrand)) {
+            b.model = (b.name || "").substring(lowerBrand.length).trim();
+          } else {
+            b.model = b.name || "";
           }
-          
-          if(!b.owner) b.owner = "1st Owner";
-          if(!b.fuel) b.fuel = "Petrol";
-          if(!b.registration) b.registration = "N/A";
-          if(!b.insurance) b.insurance = "N/A";
-          
-          if(!b.images || b.images.length === 0) b.images = [];
-          if(b.image && b.images.length === 0) b.images.push(b.image);
+        }
+
+        if (!b.owner) b.owner = "1st Owner";
+        if (!b.fuel) b.fuel = "Petrol";
+        if (!b.registration) b.registration = "N/A";
+        if (!b.insurance) b.insurance = "N/A";
+
+        if (!b.images || b.images.length === 0) b.images = [];
+        if (b.image && b.images.length === 0) b.images.push(b.image);
       });
       __bikesCache = data;
       return data;

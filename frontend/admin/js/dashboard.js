@@ -1,7 +1,7 @@
-window.previewGridImage = function(input, previewId) {
+window.previewGridImage = function (input, previewId) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             const img = document.getElementById(previewId);
             img.src = e.target.result;
             img.style.display = 'block';
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
             if (!response.ok) throw new Error('Failed to delete bike');
-            await renderBikesTable(); 
+            await renderBikesTable();
             await updateStats();
         } catch (error) {
             console.error('Error deleting bike:', error);
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewDashboard.style.display = 'none';
         viewAddBike.style.display = 'none';
         viewManageBikes.style.display = 'none';
-        if(viewEditBike) viewEditBike.style.display = 'none';
+        if (viewEditBike) viewEditBike.style.display = 'none';
 
         navDashboard.classList.remove('active');
         navAddBike.classList.remove('active');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             topBarTitle.textContent = 'Manage Bikes';
             renderBikesTable();
         } else if (viewName === 'editBike') {
-            if(viewEditBike) viewEditBike.style.display = 'block';
+            if (viewEditBike) viewEditBike.style.display = 'block';
             navManageBikes.classList.add('active');
             topBarTitle.textContent = 'Edit Bike';
         }
@@ -142,16 +142,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addBikeForm) {
         addBikeForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const submitBtn = addBikeForm.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Uploading...';
 
             try {
                 let base64Images = [];
-                for(let i = 0; i < 5; i++) {
+                for (let i = 0; i < 5; i++) {
                     const fileInput = document.getElementById(`add-file-${i}`);
-                    if(fileInput && fileInput.files && fileInput.files[0]) {
+                    if (fileInput && fileInput.files && fileInput.files[0]) {
                         const b64 = await readFileAsBase64(fileInput.files[0]);
                         base64Images.push(b64);
                     }
@@ -175,14 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 const savedBike = await addBike(newBike);
-                
+
                 if (savedBike) {
                     alert('Bike uploaded successfully!');
                     addBikeForm.reset();
                     // Clear all previews
-                    for(let i=0; i<5; i++) {
+                    for (let i = 0; i < 5; i++) {
                         const preview = document.getElementById(`add-preview-${i}`);
-                        if(preview) { preview.src = ''; preview.style.display = 'none'; }
+                        if (preview) { preview.src = ''; preview.style.display = 'none'; }
                     }
                     switchView('manageBikes');
                 } else {
@@ -206,16 +206,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = editBikeForm.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.textContent = 'Saving...';
-            
+
             const bikeId = document.getElementById('editBikeId').value;
 
             try {
                 let base64Images = [];
-                for(let i = 0; i < 5; i++) {
+                for (let i = 0; i < 5; i++) {
                     const fileInput = document.getElementById(`edit-file-${i}`);
                     const existingInput = document.getElementById(`edit-existing-${i}`);
-                    
-                    if(fileInput && fileInput.files && fileInput.files[0]) {
+
+                    if (fileInput && fileInput.files && fileInput.files[0]) {
                         // User uploaded a new file for this zone
                         const b64 = await readFileAsBase64(fileInput.files[0]);
                         base64Images.push(b64);
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 const savedBike = await updateBike(bikeId, updatedData);
-                
+
                 if (savedBike) {
                     alert('Bike updated successfully!');
                     switchView('manageBikes');
@@ -260,9 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    window.openEditBike = function(id) {
+    window.openEditBike = function (id) {
         const bike = allBikes.find(b => (b._id || b.id) === id);
-        if(!bike) return;
+        if (!bike) return;
 
         document.getElementById('editBikeId').value = id;
         document.getElementById('editBikeName').value = bike.name || '';
@@ -273,21 +273,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editBikeDescription').value = bike.description || '';
 
         // Reset inputs and previews
-        for(let i=0; i<5; i++) {
+        for (let i = 0; i < 5; i++) {
             const preview = document.getElementById(`edit-preview-${i}`);
             const existingInput = document.getElementById(`edit-existing-${i}`);
             const fileInput = document.getElementById(`edit-file-${i}`);
-            if(fileInput) fileInput.value = '';
-            
-            if(bike.images && bike.images[i]) {
-                if(preview) { preview.src = bike.images[i]; preview.style.display = 'block'; }
-                if(existingInput) { existingInput.value = bike.images[i]; }
+            if (fileInput) fileInput.value = '';
+
+            if (bike.images && bike.images[i]) {
+                if (preview) { preview.src = bike.images[i]; preview.style.display = 'block'; }
+                if (existingInput) { existingInput.value = bike.images[i]; }
             } else {
-                if(preview) { preview.src = ''; preview.style.display = 'none'; }
-                if(existingInput) { existingInput.value = ''; }
+                if (preview) { preview.src = ''; preview.style.display = 'none'; }
+                if (existingInput) { existingInput.value = ''; }
             }
         }
-        
+
         switchView('editBike');
     };
 
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function renderBikesTable() {
         const tbody = document.getElementById('bikesTableBody');
         tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">Loading bikes...</td></tr>';
-        
+
         const bikes = await getBikes();
 
         if (bikes.length === 0) {
@@ -308,13 +308,13 @@ document.addEventListener('DOMContentLoaded', () => {
         bikes.forEach(bike => {
             const tr = document.createElement('tr');
             const bikeId = bike._id || bike.id;
-            
+
             const tdImage = document.createElement('td');
             const img = document.createElement('img');
             const primaryImage = (bike.images && bike.images.length > 0) ? bike.images[0] : (bike.image || 'https://via.placeholder.com/60x40?text=No+Img');
             img.src = primaryImage;
             img.className = 'bike-img-thumbnail';
-            img.onerror = function() { this.src = 'https://via.placeholder.com/60x40?text=Error'; };
+            img.onerror = function () { this.src = 'https://via.placeholder.com/60x40?text=Error'; };
             tdImage.appendChild(img);
 
             const tdName = document.createElement('td');
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tdPrice.textContent = '₹' + parseInt(bike.price).toLocaleString('en-IN');
 
             const tdActions = document.createElement('td');
-            
+
             const editBtn = document.createElement('button');
             editBtn.className = 'action-btn';
             editBtn.textContent = 'Edit';
@@ -343,11 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
             deleteBtn.className = 'action-btn delete';
             deleteBtn.textContent = 'Delete';
             deleteBtn.onclick = () => {
-                if(confirm(`Are you sure you want to delete ${bike.name}?`)) {
+                if (confirm(`Are you sure you want to delete ${bike.name}?`)) {
                     deleteBike(bikeId);
                 }
             };
-            
+
             tdActions.appendChild(editBtn);
             tdActions.appendChild(deleteBtn);
 

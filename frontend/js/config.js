@@ -34,6 +34,11 @@ const CONFIG = {
   currencySymbol: "₹",
   siteUrl: "https://hariharabikebazar.netlify.app",
 
+  // --- API BACKEND ---
+  // When running locally: "http://localhost:5000/api"
+  // When deployed to production (e.g. Render/Railway): change to your deployed backend URL
+  apiUrl: "http://localhost:5000/api",
+
   // Finance defaults for EMI calculator
   finance: {
     defaultInterestRate: 11.5, // annual %
