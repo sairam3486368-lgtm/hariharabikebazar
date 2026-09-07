@@ -18,9 +18,9 @@ const CONFIG = {
   tagline: "Quality pre-owned motorcycles for every budget.",
 
   // --- CONTACT (fill in real numbers, then every button site-wide updates) ---
-  phone: "9052069191",              // e.g. "+919999999999"
-  phoneDisplay: "Call Us", // shown when phone is not yet set
-  whatsapp: "6305963844",            // e.g. "919999999999" (no + , no spaces)
+  phone: "+916305963844",              // e.g. "+919999999999"
+  phoneDisplay: "+91 63059 63844",    // displayed on screen
+  whatsapp: "916305963844",            // e.g. "919999999999" (no + , no spaces)
 
   // --- SOCIAL (leave blank to hide the icon) ---
   instagram: "",
@@ -84,14 +84,18 @@ function formatINR(amount) {
 
 // Helper: build a WhatsApp click-to-chat URL with a prefilled message
 function buildWhatsAppUrl(message) {
-  const number = CONFIG.whatsapp || "";
+  let number = String(CONFIG.whatsapp || "").replace(/\D/g, "");
+  if (number.length === 10) {
+    number = "91" + number;
+  }
   const encoded = encodeURIComponent(message);
   return `https://wa.me/${number}?text=${encoded}`;
 }
 
 // Helper: build a tel: link
 function buildTelUrl() {
-  return CONFIG.phone ? `tel:${CONFIG.phone}` : "#";
+  const phone = String(CONFIG.phone || "").replace(/[^\d+]/g, "");
+  return phone ? `tel:${phone}` : "#";
 }
 
 // Helper: consistent chevron/arrow SVG for carousels and galleries.
