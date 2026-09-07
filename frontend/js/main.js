@@ -33,7 +33,19 @@ function applyConfigToDOM() {
   });
 
   document.querySelectorAll("[data-phone-display]").forEach((el) => {
-    el.textContent = CONFIG.phone || CONFIG.phoneDisplay;
+    el.textContent = CONFIG.phoneDisplay || CONFIG.phone || "+91 63059 63844";
+  });
+
+  document.querySelectorAll("[data-whatsapp-display]").forEach((el) => {
+    el.textContent = CONFIG.whatsappDisplay || CONFIG.phoneDisplay || CONFIG.whatsapp || "+91 63059 63844";
+  });
+
+  document.querySelectorAll("[data-contact-address]").forEach((el) => {
+    if (CONFIG.address) el.textContent = CONFIG.address;
+  });
+
+  document.querySelectorAll("[data-contact-hours]").forEach((el) => {
+    if (CONFIG.hours) el.textContent = CONFIG.hours;
   });
 
   // Social links — hide icon if URL not configured

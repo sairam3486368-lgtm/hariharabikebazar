@@ -21,6 +21,9 @@ const CONFIG = {
   phone: "+916305963844",              // e.g. "+919999999999"
   phoneDisplay: "+91 63059 63844",    // displayed on screen
   whatsapp: "916305963844",            // e.g. "919999999999" (no + , no spaces)
+  whatsappDisplay: "+91 63059 63844", // displayed on screen
+  address: "Kukatpally, Hyderabad, Telangana",
+  hours: "Mon – Sun: 9:30 AM – 8:30 PM",
 
   // --- SOCIAL (leave blank to hide the icon) ---
   instagram: "",
