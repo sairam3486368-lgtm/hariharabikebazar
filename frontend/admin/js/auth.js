@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMsg = document.getElementById('loginError') || document.getElementById('signupError');
     const successMsg = document.getElementById('signupSuccess');
 
-    const API_URL = 'http://localhost:5000/api/auth';
+    const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.apiUrl)
+        ? `${CONFIG.apiUrl}/auth`
+        : 'https://hariharabikebazar.onrender.com/api/auth';
 
     // Check if already logged in
     if (sessionStorage.getItem('adminLoggedIn') === 'true') {

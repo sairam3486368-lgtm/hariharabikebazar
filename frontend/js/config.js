@@ -35,9 +35,7 @@ const CONFIG = {
   siteUrl: "https://hariharabikebazar.netlify.app",
 
   // --- API BACKEND ---
-  // When running locally: "http://localhost:5000/api"
-  // When deployed to production (e.g. Render/Railway): change to your deployed backend URL
-  apiUrl: "http://localhost:5000/api",
+  apiUrl: "https://hariharabikebazar.onrender.com/api",
 
   // Finance defaults for EMI calculator
   finance: {

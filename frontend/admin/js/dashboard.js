@@ -13,7 +13,9 @@ window.previewGridImage = function (input, previewId) {
 document.addEventListener('DOMContentLoaded', () => {
     if (!window.location.pathname.endsWith('dashboard.html')) return;
 
-    const API_URL = 'http://localhost:5000/api/bikes';
+    const API_URL = (typeof CONFIG !== 'undefined' && CONFIG.apiUrl)
+        ? `${CONFIG.apiUrl}/bikes`
+        : 'https://hariharabikebazar.onrender.com/api/bikes';
     let allBikes = [];
 
     // --- API Calls ---

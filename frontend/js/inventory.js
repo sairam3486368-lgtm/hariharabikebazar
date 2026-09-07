@@ -15,7 +15,10 @@ window.resolveImageSrc = function (imgStr) {
 
 function loadBikes() {
   if (__bikesCache) return Promise.resolve(__bikesCache);
-  return fetch("http://localhost:5000/api/bikes")
+  const url = (typeof CONFIG !== 'undefined' && CONFIG.apiUrl) 
+    ? `${CONFIG.apiUrl}/bikes` 
+    : "https://hariharabikebazar.onrender.com/api/bikes";
+  return fetch(url)
     .then((res) => {
       if (!res.ok) throw new Error("Failed to load inventory");
       return res.json();
