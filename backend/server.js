@@ -20,6 +20,15 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // --- Routes ---
 
+// Health check endpoint for monitoring & keep-alive cron
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
+});
+
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
+});
+
 // --- Authentication Routes ---
 app.post('/api/auth/signup', async (req, res) => {
     try {
@@ -109,4 +118,21 @@ app.delete('/api/bikes/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+
+    // --- Automatic Keep-Alive Cron Ping (Runs every 14 mins to prevent Render free-tier sleep) ---
+    const pingUrl = process.env.RENDER_EXTERNAL_URL 
+        ? `${process.env.RENDER_EXTERNAL_URL}/health`
+        : 'https://hariharabikebazar.onrender.com/health';
+
+    const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes
+    setInterval(async () => {
+        try {
+            const response = await fetch(pingUrl);
+            console.log(`[Keep-Alive] Pinged ${pingUrl} at ${new Date().toLocaleTimeString()} - Status: ${response.status}`);
+        } catch (error) {
+            console.error(`[Keep-Alive] Ping error: ${error.message}`);
+        }
+    }, PING_INTERVAL);
+});
