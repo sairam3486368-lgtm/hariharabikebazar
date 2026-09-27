@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/main.css">
+<link rel="stylesheet" href="../css/main.css?v=4.3">
 
 
 
@@ -30,7 +30,7 @@
       <ul>
         <li><a href="index.html" class="">Home</a></li>
 <li><a href="bikes.html" class="">Buy Bikes</a></li>
-<li><a href="sell-bike.html" class="active">Sell Your Bike</a></li>
+<li><a href="sell-bike.html" class="active">Sell in 60</a></li>
 <li><a href="finance.html" class="">Finance</a></li>
 <li><a href="branches.html" class="">Branches</a></li>
 <li><a href="about.html" class="">About</a></li>
@@ -55,7 +55,7 @@
 <li><a href="bikes.html">Buy Bikes</a></li>
 <li><a href="bikes.html?budget=under50">Budget Bikes</a></li>
 <li><a href="bikes.html?budget=premium">Premium Bikes</a></li>
-<li><a href="sell-bike.html">Sell Your Bike</a></li>
+<li><a href="sell-bike.html">Sell in 60</a></li>
 <li><a href="finance.html">Finance</a></li>
 <li><a href="branches.html">Branches</a></li>
 <li><a href="about.html">About</a></li>
@@ -66,15 +66,47 @@
     <a class="btn btn-whatsapp btn-block" data-whatsapp-link href="https://wa.me/919052069191" target="_blank" rel="noopener">WhatsApp Us (+91 90520 69191)</a>
   </div>
 </div>
-<nav class="breadcrumbs container" aria-label="Breadcrumb"><a href="index.html">Home</a> &rsaquo; <span aria-current="page">Sell Your Bike</span></nav>
+<nav class="breadcrumbs container" aria-label="Breadcrumb"><a href="index.html">Home</a> &rsaquo; <span aria-current="page">Sell in 60</span></nav>
 <main>
-  <div class="page-banner">
-    <div class="container page-banner-inner">
-      <h1>Sell your bike.<br>Get the right value.</h1>
-      <p>Tell us about your bike and our team can contact you regarding evaluation.</p>
+  <!-- ============ 1ST IMAGE: EXCHANGE HERO BANNER (Full-Bleed Cover Before Bike Valuation) ============ -->
+  <section class="section-exchange-hero">
+    <div class="exchange-hero-cover exchange-hero-card">
+      <div class="exchange-hero-content">
+        <div class="exchange-hero-heading-wrap">
+          <h1 class="exchange-hero-title"><em>Exchange Your Old Bike for</em></h1>
+          <p class="exchange-hero-sub">a New Pre-Owned Bike with Hari Hara!</p>
+        </div>
+        <div class="exchange-bonus-badge">
+          GET Upto <span class="bonus-amount">₹2000/-</span> Exchange Bonus
+        </div>
+        <div class="exchange-points">
+          <div class="exchange-point">
+            <span class="exchange-point-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/>
+              </svg>
+            </span>
+            <div class="exchange-point-text">
+              <span>Swap, Save &amp;</span><br>
+              <span>Ride Smarter</span>
+            </div>
+          </div>
+          <a href="#exchange" class="exchange-point">
+            <span class="exchange-point-icon" aria-hidden="true">₹</span>
+            <div class="exchange-point-text">
+              <span>Exchange Your</span><br>
+              <span>Bike Now!</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="exchange-hero-visual">
+        <img src="../images/exchange-handover.jpg" alt="Motorcycle exchange key handover deal at Hari Hara Bike Bazar" loading="eager">
+      </div>
     </div>
-  </div>
+  </section>
 
+  <!-- ============ BIKE VALUATION FORM ============ -->
   <section id="exchange" style="padding-top:40px;">
     <div class="container" style="max-width:720px;">
       <form class="form-card" id="sell-bike-form" novalidate>
@@ -152,30 +184,52 @@
     </div>
   </section>
 
-  <section class="section-alt">
+  <!-- ============ 2ND IMAGE: THE HARI HARA WAY (After Bike Valuation) ============ -->
+  <section class="section-process-way">
     <div class="container">
       <div class="section-head center reveal">
-        <span class="h-eyebrow">Simple Process</span>
-        <h2 class="section-title">How selling works</h2>
+        <span class="process-badge">Simple &amp; Transparent Process</span>
+        <h2 class="section-title">The Hari Hara Way</h2>
+        <p class="section-sub center-sub">Sell your bike quickly and securely in just three simple steps.</p>
       </div>
-      <div class="benefit-grid">
-        <div class="benefit-item reveal">
-          <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <h3>Share Details</h3>
-          <p>Fill the form above with your bike's details.</p>
+      <div class="process-steps-wrap reveal">
+        <!-- Step 1 -->
+        <div class="process-step-card">
+          <div class="process-step-num">1</div>
+          <h3 class="process-step-title">Book Your Free Doorstep Inspection</h3>
+          <p class="process-step-desc">Share your bike details and let our experts inspect it at your doorstep—completely free. Get a quick, transparent evaluation with no hassle and no hidden charges.</p>
         </div>
-        <div class="benefit-item reveal">
-          <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
-          <h3>Get Evaluated</h3>
-          <p>Our team reviews your bike's condition and market value.</p>
+
+        <!-- Arrow Divider 1 -->
+        <div class="process-arrow-divider" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        <div class="benefit-item reveal">
-          <div class="benefit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3>Close the Deal</h3>
-          <p>Agree on a fair price and complete the paperwork with us.</p>
+
+        <!-- Step 2 -->
+        <div class="process-step-card">
+          <div class="process-step-num">2</div>
+          <h3 class="process-step-title">Get Your Best Bike Value</h3>
+          <p class="process-step-desc">Our experts professionally evaluate your bike and give you a fair, competitive market price instantly. No guesswork, no hassle—just a transparent offer you can trust.</p>
+        </div>
+
+        <!-- Arrow Divider 2 -->
+        <div class="process-arrow-divider" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M13 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="process-step-card">
+          <div class="process-step-num">3</div>
+          <h3 class="process-step-title">Get Paid Instantly</h3>
+          <p class="process-step-desc">Accept your offer and receive fast, secure payment directly into your bank account. No waiting, no hassle—sell your bike and get your money instantly.</p>
         </div>
       </div>
     </div>
+  </section>
 </main>
 
 <footer class="site-footer">

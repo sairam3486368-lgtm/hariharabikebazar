@@ -1,0 +1,16 @@
+name: Render Keep-Alive Cron
+
+on:
+  schedule:
+    # Run every 10 minutes (UTC)
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Endpoint
+        run: |
+          echo "Pinging Render backend..."
+          curl -s -i --max-time 60 https://hariharabikebazar.onrender.com/health || true

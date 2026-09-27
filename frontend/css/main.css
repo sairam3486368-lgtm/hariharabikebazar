@@ -701,7 +701,577 @@ section { padding: 64px 0; }
   border-radius: 50%;
 }
 .exchange-banner h2 { font-size: clamp(24px, 4vw, 36px); font-weight: 900; }
-.exchange-banner p { margin-top: 8px; opacity: 0.9; max-width: 50ch; }
+/* ---------- Quality Assurance & Customer Promises ---------- */
+.section-assurance {
+  padding: 40px 0 60px;
+  background: var(--white);
+}
+
+.assurance-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+  align-items: center;
+}
+
+.assurance-card {
+  position: relative;
+  background: linear-gradient(155deg, #091122 0%, #0e1b36 55%, #070d1e 100%);
+  border-radius: 28px;
+  padding: 48px 40px;
+  color: #fff;
+  box-shadow: 0 20px 48px rgba(7, 13, 30, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 420px;
+}
+
+.assurance-card::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(215, 25, 32, 0.22) 0%, rgba(215, 25, 32, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.assurance-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(215, 25, 32, 0.16);
+  color: #ff5259;
+  border: 1px solid rgba(215, 25, 32, 0.35);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 22px;
+  width: fit-content;
+}
+
+.assurance-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 2.7vw, 36px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px 0;
+}
+
+.assurance-card-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 34px 0;
+  max-width: 44ch;
+}
+
+.assurance-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #0f172a;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14.5px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  width: fit-content;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: all 0.22s var(--ease);
+}
+
+.assurance-card-btn svg {
+  width: 17px;
+  height: 17px;
+  transition: transform 0.22s var(--ease);
+}
+
+.assurance-card-btn:hover {
+  background: var(--red);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(215, 25, 32, 0.35);
+}
+
+.assurance-card-btn:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.assurance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.assurance-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 6px 8px;
+  border-radius: var(--radius-md);
+  transition: transform 0.2s var(--ease);
+}
+
+.assurance-item:hover {
+  transform: translateX(4px);
+}
+
+.assurance-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  background: #edf2f7;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.22s var(--ease), color 0.22s var(--ease), transform 0.22s var(--ease);
+}
+
+.assurance-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.assurance-item:hover .assurance-icon {
+  background: rgba(215, 25, 32, 0.1);
+  color: var(--red);
+  transform: scale(1.06);
+}
+
+.assurance-content {
+  flex: 1;
+}
+
+.assurance-item-title {
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.assurance-item-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .assurance-grid {
+    grid-template-columns: 460px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1100px) {
+  .assurance-grid {
+    grid-template-columns: 490px 1fr;
+    gap: 64px;
+  }
+}
+
+@media (max-width: 560px) {
+  .section-assurance {
+    padding: 30px 0 44px;
+  }
+  .assurance-card {
+    padding: 32px 22px;
+    border-radius: 20px;
+    min-height: auto;
+  }
+  .assurance-list {
+    gap: 18px;
+  }
+  .assurance-item {
+    gap: 14px;
+    padding: 2px 0;
+  }
+  .assurance-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 10px;
+  }
+  .assurance-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .assurance-item-title {
+    font-size: 15.5px;
+  }
+  .assurance-item-desc {
+    font-size: 13.5px;
+  }
+}
+
+/* ---------- Sell in 60: Exchange Hero Banner (Full-Bleed Cover - Image 1 Before Valuation) ---------- */
+.section-exchange-hero {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.exchange-hero-cover,
+.exchange-hero-card {
+  width: 100%;
+  background: #ffffff;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 960px) {
+  .exchange-hero-cover,
+  .exchange-hero-card {
+    grid-template-columns: 1.05fr 0.95fr;
+    min-height: 480px;
+    align-items: stretch;
+  }
+}
+
+.exchange-hero-content {
+  padding: 42px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+}
+
+@media (min-width: 960px) {
+  .exchange-hero-content {
+    padding-top: 56px;
+    padding-bottom: 56px;
+    padding-right: 48px;
+    padding-left: max(32px, calc((100vw - 1200px) / 2 + 20px));
+  }
+}
+
+@media (min-width: 1300px) {
+  .exchange-hero-content {
+    padding-top: 64px;
+    padding-bottom: 64px;
+    padding-right: 56px;
+    padding-left: max(40px, calc((100vw - 1240px) / 2 + 24px));
+  }
+}
+
+.exchange-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.015em;
+}
+
+.exchange-hero-title em {
+  font-style: italic;
+  font-weight: 900;
+  color: #0f172a;
+  display: block;
+}
+
+.exchange-hero-sub {
+  font-size: clamp(15px, 1.4vw, 17px);
+  font-weight: 600;
+  color: #334155;
+  margin: 0 0 24px 0;
+}
+
+.exchange-bonus-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #091122;
+  color: var(--white);
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 15px;
+  width: fit-content;
+  box-shadow: 0 4px 18px rgba(0, 180, 216, 0.25);
+  margin-bottom: 26px;
+  border: 1.5px solid #00b4d8;
+}
+
+.exchange-bonus-badge .bonus-amount {
+  color: #00e5ff;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+}
+
+.exchange-points {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exchange-point {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  width: fit-content;
+  transition: transform 0.2s var(--ease);
+}
+
+.exchange-point:hover {
+  transform: translateX(4px);
+}
+
+.exchange-point-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: #00b4d8;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 19px;
+  box-shadow: 0 4px 14px rgba(0, 180, 216, 0.35);
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.exchange-point:hover .exchange-point-icon {
+  background: var(--red);
+  box-shadow: 0 4px 14px rgba(215, 25, 32, 0.35);
+  transform: scale(1.06);
+}
+
+.exchange-point-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.exchange-point-text {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.exchange-point:hover .exchange-point-text {
+  color: var(--red);
+}
+
+.exchange-hero-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+  background: #0b1329;
+}
+
+@media (min-width: 960px) {
+  .exchange-hero-visual {
+    min-height: 480px;
+    height: 100%;
+    /* Smooth convex arc curving leftwards into the white content area */
+    border-top-left-radius: 46% 50%;
+    border-bottom-left-radius: 46% 50%;
+  }
+}
+
+.exchange-hero-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+/* Decorative curved accent shapes matching original design */
+.exchange-hero-visual::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -30px;
+  width: 130px;
+  height: 170px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00e5ff 0%, #0096c7 100%);
+  opacity: 0.85;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.exchange-hero-visual::after {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  right: -30px;
+  width: 150px;
+  height: 170px;
+  border-radius: 50%;
+  background: #091122;
+  opacity: 0.95;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (max-width: 959px) {
+  .exchange-hero-visual {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    min-height: 280px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 560px) {
+  .exchange-hero-content {
+    padding: 32px 18px 26px;
+  }
+  .exchange-bonus-badge {
+    font-size: 13.5px;
+    padding: 9px 18px;
+  }
+  .exchange-bonus-badge .bonus-amount {
+    font-size: 16px;
+  }
+}
+
+/* ---------- Sell in 60: The Hari Hara Way Process (Image 2 - After Valuation) ---------- */
+.section-process-way {
+  padding: 68px 0 80px;
+  background: var(--off-white);
+  border-top: 1px solid var(--border);
+}
+
+.process-badge {
+  display: inline-block;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.process-steps-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+@media (min-width: 860px) {
+  .process-steps-wrap {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+  }
+}
+
+.process-step-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 38px 26px;
+  text-align: center;
+  flex: 1;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease), border-color 0.22s var(--ease);
+}
+
+.process-step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  border-color: var(--red);
+}
+
+.process-step-num {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #0f172a;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22);
+  transition: background 0.22s var(--ease), transform 0.22s var(--ease);
+}
+
+.process-step-card:hover .process-step-num {
+  background: var(--red);
+  transform: scale(1.08);
+}
+
+.process-step-title {
+  font-family: var(--font-display);
+  font-size: 18.5px;
+  font-weight: 800;
+  color: var(--charcoal);
+  margin: 0 0 12px 0;
+  line-height: 1.25;
+}
+
+.process-step-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.process-arrow-divider {
+  display: none;
+  flex-shrink: 0;
+}
+
+@media (min-width: 860px) {
+  .process-arrow-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+  }
+  .process-arrow-divider svg {
+    width: 26px;
+    height: 26px;
+    stroke: #94a3b8;
+    stroke-width: 2.5;
+  }
+}
 
 /* ---------- Footer ---------- */
 .site-footer { background: radial-gradient(ellipse at bottom, var(--charcoal-soft), var(--charcoal)); color: #D8D8D8; padding: 70px 0 30px; border-top: 1px solid rgba(255,255,255,0.05); }
