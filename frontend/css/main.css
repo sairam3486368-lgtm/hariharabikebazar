@@ -1350,60 +1350,327 @@ section { padding: 64px 0; }
 .page-banner h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 900; }
 .page-banner p { margin-top: 10px; color: #D6D6D6; max-width: 60ch; }
 
-/* ---------- Inventory layout ---------- */
-.inventory-layout { display: grid; grid-template-columns: 1fr; gap: 26px; margin-top: 24px; }
-.filter-sidebar { display: none; }
-.filter-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; }
-.filter-group { border-bottom: 1px solid var(--border); padding: 16px 0; }
-.filter-group:first-child { padding-top: 0; }
-.filter-group:last-child { border-bottom: none; padding-bottom: 0; }
-.filter-group h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-.filter-option { display: flex; align-items: center; gap: 8px; font-size: 14px; padding: 6px 0; cursor: pointer; }
-.filter-option input { accent-color: var(--red); width: 16px; height: 16px; }
+/* ---------- E-Commerce Inventory Structure (Explore Bikes) ---------- */
+.inventory-section {
+  padding: 16px 0 60px;
+  background: #f1f3f6;
+  min-height: calc(100vh - var(--header-h));
+}
 
-.inventory-toolbar {
+.inventory-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 0;
+}
+
+.filter-sidebar { display: none; }
+
+.filter-panel {
+  background: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.filter-panel-header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
   align-items: center;
   justify-content: space-between;
-  margin-top: 18px;
-}
-.results-count { font-size: 14px; font-weight: 700; }
-.results-count strong { color: var(--red); }
-.toolbar-right { display: flex; gap: 10px; align-items: center; }
-.sort-select {
-  padding: 10px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 13.5px;
-  background: var(--off-white);
-}
-.filter-trigger-mobile {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 16px;
-  border: 1.5px solid var(--charcoal);
-  border-radius: var(--radius-sm);
-  font-weight: 700;
-  font-size: 13.5px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
 }
 
-.search-bar {
+.filter-panel-title {
+  font-size: 16px;
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  color: var(--charcoal);
+  text-transform: uppercase;
+}
+
+.filter-clear-link {
+  background: none;
+  border: none;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  padding: 0;
+}
+
+.filter-clear-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Dropdown / Accordion Filter Groups (Flipkart Style) ---------- */
+.filter-group {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.filter-group:first-child {
+  padding-top: 4px;
+}
+.filter-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.filter-group-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  padding: 8px 4px;
+  cursor: pointer;
+  text-align: left;
+  user-select: none;
+  border-radius: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.filter-group-header:hover {
+  background: #f8f9fa;
+}
+
+.filter-group-header:hover .filter-group-title {
+  color: var(--red);
+}
+
+.filter-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-selected-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: 8px;
+}
+.filter-selected-badge:empty {
+  display: none;
+}
+
+.filter-group-chevron {
+  width: 16px;
+  height: 16px;
+  color: #757575;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+}
+
+.filter-group-header[aria-expanded="true"] .filter-group-chevron {
+  transform: rotate(180deg);
+  color: var(--charcoal);
+}
+
+.filter-group-header[aria-expanded="false"] .filter-group-chevron {
+  transform: rotate(0deg);
+}
+
+.filter-group-body {
+  padding: 6px 2px 4px;
+  animation: filterFadeIn 0.2s ease;
+}
+
+@keyframes filterFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-option {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--off-white);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 12px 16px;
-  margin-top: 20px;
+  font-size: 13.5px;
+  padding: 6px 6px;
+  cursor: pointer;
+  color: #333;
+  border-radius: 4px;
+  transition: background 0.12s ease, color 0.12s ease;
 }
-.search-bar svg { width: 18px; height: 18px; color: var(--text-muted); flex-shrink: 0; }
-.search-bar input { flex: 1; border: none; background: transparent; font-size: 14.5px; outline: none; }
 
-.active-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.filter-option:hover {
+  background: #f5f6f8;
+  color: var(--charcoal);
+}
+
+.filter-option input[type="checkbox"] {
+  accent-color: var(--red);
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Header card above products */
+.inventory-header-card {
+  background: var(--white);
+  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  padding: 14px 18px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+
+.results-head-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.results-meta {
+  flex: 1;
+  min-width: 200px;
+}
+
+.results-meta .breadcrumbs {
+  padding: 0 0 6px 0;
+  font-size: 12px;
+  color: var(--gray-mid);
+}
+
+.results-meta .breadcrumbs a {
+  color: var(--gray-mid);
+}
+
+.results-meta .breadcrumbs a:hover {
+  color: var(--red);
+}
+
+.results-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.results-heading strong {
+  font-weight: 800;
+  color: var(--charcoal);
+}
+
+.search-query-tag {
+  color: var(--gray-mid);
+  font-weight: 500;
+  font-size: 14.5px;
+}
+
+.results-search-wrap {
+  width: 320px;
+  max-width: 100%;
+}
+
+.results-search-wrap .search-bar {
+  margin-top: 0;
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: #fbfbfb;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.results-search-wrap .search-bar:focus-within {
+  border-color: var(--charcoal);
+  background: #ffffff;
+}
+
+.results-search-wrap .search-bar svg { width: 17px; height: 17px; color: var(--text-muted); flex-shrink: 0; }
+.results-search-wrap .search-bar input { flex: 1; border: none; background: transparent; font-size: 13.5px; outline: none; }
+
+/* Horizontal Sort Tabs matching Flipkart structure */
+.sort-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-top: 1px solid #f0f0f0;
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sort-tabs-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.sort-by-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--charcoal);
+  white-space: nowrap;
+  margin-right: 2px;
+}
+
+.sort-tab {
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  padding: 11px 2px 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.sort-tab:hover {
+  color: var(--charcoal);
+}
+
+.sort-tab.active {
+  color: var(--red);
+  border-bottom-color: var(--red);
+  font-weight: 700;
+}
+
+.filter-trigger-mobile {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  background: var(--off-white);
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.active-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .filter-chip {
   display: inline-flex; align-items: center; gap: 6px;
   background: var(--charcoal); color: #fff;

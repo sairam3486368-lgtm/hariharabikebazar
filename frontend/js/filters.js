@@ -98,6 +98,7 @@ function buildDynamicFilterOptions(bikes) {
 }
 
 function bindControls() {
+  // Checkbox changes for all groups
   document.body.addEventListener("change", (e) => {
     const group = e.target.getAttribute("data-group");
     if (!group) return;
@@ -107,6 +108,19 @@ function bindControls() {
     else set.delete(e.target.value);
     state.visibleCount = PAGE_SIZE;
     renderAll();
+  });
+
+  // Expand / collapse dropdown options (Flipkart style accordion)
+  document.body.addEventListener("click", (e) => {
+    const headerBtn = e.target.closest(".filter-group-header");
+    if (!headerBtn) return;
+    const isExpanded = headerBtn.getAttribute("aria-expanded") === "true";
+    const newExpanded = !isExpanded;
+    headerBtn.setAttribute("aria-expanded", String(newExpanded));
+    const body = headerBtn.nextElementSibling;
+    if (body) {
+      body.style.display = newExpanded ? "block" : "none";
+    }
   });
 
   const searchInput = document.getElementById("inventory-search");
@@ -123,9 +137,22 @@ function bindControls() {
   if (sortSelect) {
     sortSelect.addEventListener("change", (e) => {
       state.sort = e.target.value;
+      updateSortTabsUI(state.sort);
       renderAll();
     });
   }
+
+  // Bind horizontal sort tabs (Flipkart-style structure)
+  document.querySelectorAll(".sort-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const val = tab.getAttribute("data-sort");
+      if (!val) return;
+      state.sort = val;
+      updateSortTabsUI(val);
+      if (sortSelect) sortSelect.value = val;
+      renderAll();
+    });
+  });
 
   document.body.addEventListener("click", (e) => {
     if (e.target.matches("[data-clear-all]")) clearAllFilters();
@@ -204,7 +231,7 @@ function renderChips() {
   const chips = [];
 
   state.budget.forEach((key) =>
-    chips.push({ label: BUDGET_BANDS[key].label, group: "budget", value: key })
+    chips.push({ label: BUDGET_BANDS[key]?.label || key, group: "budget", value: key })
   );
   state.brand.forEach((v) => chips.push({ label: v, group: "brand", value: v }));
   state.location.forEach((v) => chips.push({ label: v, group: "location", value: v }));
@@ -238,8 +265,8 @@ function renderChips() {
         if (input) input.value = "";
       } else {
         state[group].delete(value);
-        const checkbox = document.querySelector(`input[data-group="${group}"][value="${CSS.escape(value)}"]`);
-        if (checkbox) checkbox.checked = false;
+        const checkboxes = document.querySelectorAll(`input[data-group="${group}"][value="${CSS.escape(value)}"]`);
+        checkboxes.forEach((cb) => (cb.checked = false));
       }
       renderAll();
     });
@@ -267,6 +294,22 @@ function syncCheckboxes() {
       el.checked = set.has(el.value);
     }
   });
+
+  // Update selected count badge in the accordion headers
+  ["budget", "brand", "ownership", "location", "status"].forEach((group) => {
+    const count = (state[group] && group !== "status") ? state[group].size : 0;
+    document.querySelectorAll(`[data-badge="${group}"]`).forEach((b) => {
+      b.textContent = count > 0 ? String(count) : "";
+    });
+  });
+}
+
+function updateSortTabsUI(activeSort) {
+  document.querySelectorAll(".sort-tab").forEach((tab) => {
+    const isActive = tab.getAttribute("data-sort") === activeSort;
+    tab.classList.toggle("active", isActive);
+    tab.setAttribute("aria-selected", isActive ? "true" : "false");
+  });
 }
 
 function renderAll() {
@@ -279,6 +322,31 @@ function renderAll() {
   const countEl = document.getElementById("results-count-num");
   if (countEl) countEl.textContent = filtered.length;
 
+  const visible = filtered.slice(0, state.visibleCount);
+
+  const rangeEl = document.getElementById("showing-range");
+  if (rangeEl) {
+    if (filtered.length === 0) {
+      rangeEl.textContent = "0";
+    } else {
+      const visibleEnd = Math.min(visible.length, filtered.length);
+      rangeEl.textContent = `1 – ${visibleEnd}`;
+    }
+  }
+
+  const queryTag = document.getElementById("search-query-tag");
+  if (queryTag) {
+    if (state.search) {
+      queryTag.textContent = `for "${state.search}"`;
+      queryTag.style.display = "inline";
+    } else {
+      queryTag.textContent = "";
+      queryTag.style.display = "none";
+    }
+  }
+
+  updateSortTabsUI(state.sort);
+
   renderChips();
 
   if (!filtered.length) {
@@ -288,8 +356,6 @@ function renderAll() {
     return;
   }
   document.getElementById("empty-state-inventory")?.classList.add("hidden-state");
-
-  const visible = filtered.slice(0, state.visibleCount);
   
   // Categorize visible bikes based on price if no heavy filters are active
   const isDefaultView = state.budget.size === 0 && state.brand.size === 0 && state.search === "" && state.sort === "featured";

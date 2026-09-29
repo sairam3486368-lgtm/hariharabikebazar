@@ -65,69 +65,120 @@
     <a class="btn btn-whatsapp btn-block" data-whatsapp-link href="https://wa.me/919052069191" target="_blank" rel="noopener">WhatsApp Us (+91 90520 69191)</a>
   </div>
 </div>
-<nav class="breadcrumbs container" aria-label="Breadcrumb"><a href="index.html">Home</a> &rsaquo; <span aria-current="page">Buy Bikes</span></nav>
 <main>
-  <div class="page-banner" style="padding:36px 0 40px;">
-    <div class="container page-banner-inner">
-      <h1 style="font-size:clamp(26px,4vw,38px);">Buy Used Bikes</h1>
-      <p>Verified listings, transparent details, straightforward contact.</p>
-    </div>
-  </div>
-
-  <section style="padding-top:30px;">
+  <section class="inventory-section">
     <div class="container">
-
-      <div class="search-bar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input type="search" id="inventory-search" placeholder="Search Royal Enfield, R15, KTM...">
-      </div>
-
-      <div class="active-filters" id="active-filters"></div>
-
       <div class="inventory-layout">
         <!-- Sidebar (desktop) -->
         <aside class="filter-sidebar">
           <div class="filter-panel">
-            <div class="filter-group">
-              <h4>Budget</h4>
-              <label class="filter-option"><input type="checkbox" data-group="budget" value="under50"> Under ₹50K</label>
-              <label class="filter-option"><input type="checkbox" data-group="budget" value="50to1l"> ₹50K – ₹1L</label>
-              <label class="filter-option"><input type="checkbox" data-group="budget" value="1to2l"> ₹1L – ₹2L</label>
-              <label class="filter-option"><input type="checkbox" data-group="budget" value="premium"> Premium (₹2L+)</label>
+            <div class="filter-panel-header">
+              <span class="filter-panel-title">Filters</span>
+              <button type="button" class="filter-clear-link" data-clear-all>Clear All</button>
             </div>
+            <!-- Budget -->
             <div class="filter-group">
-              <h4>Brand</h4>
-              <div id="filter-brand-options"></div>
+              <button type="button" class="filter-group-header" aria-expanded="true">
+                <span class="filter-group-title">Budget</span>
+                <span class="filter-selected-badge" data-badge="budget"></span>
+                <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="filter-group-body">
+                <label class="filter-option"><input type="checkbox" data-group="budget" value="under50"> Under ₹50K</label>
+                <label class="filter-option"><input type="checkbox" data-group="budget" value="50to1l"> ₹50K – ₹1L</label>
+                <label class="filter-option"><input type="checkbox" data-group="budget" value="1to2l"> ₹1L – ₹2L</label>
+                <label class="filter-option"><input type="checkbox" data-group="budget" value="premium"> Premium (₹2L+)</label>
+              </div>
             </div>
+
+            <!-- Brand -->
             <div class="filter-group">
-              <h4>Ownership</h4>
-              <label class="filter-option"><input type="checkbox" data-group="ownership" value="1st Owner"> 1st Owner</label>
-              <label class="filter-option"><input type="checkbox" data-group="ownership" value="2nd Owner"> 2nd Owner</label>
-              <label class="filter-option"><input type="checkbox" data-group="ownership" value="3rd Owner"> 3rd Owner</label>
+              <button type="button" class="filter-group-header" aria-expanded="true">
+                <span class="filter-group-title">Brand</span>
+                <span class="filter-selected-badge" data-badge="brand"></span>
+                <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="filter-group-body">
+                <div id="filter-brand-options"></div>
+              </div>
             </div>
+
+            <!-- Ownership -->
             <div class="filter-group">
-              <h4>Location</h4>
-              <div id="filter-location-options"></div>
+              <button type="button" class="filter-group-header" aria-expanded="true">
+                <span class="filter-group-title">Ownership</span>
+                <span class="filter-selected-badge" data-badge="ownership"></span>
+                <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="filter-group-body">
+                <label class="filter-option"><input type="checkbox" data-group="ownership" value="1st Owner"> 1st Owner</label>
+                <label class="filter-option"><input type="checkbox" data-group="ownership" value="2nd Owner"> 2nd Owner</label>
+                <label class="filter-option"><input type="checkbox" data-group="ownership" value="3rd Owner"> 3rd Owner</label>
+              </div>
             </div>
+
+            <!-- Location -->
             <div class="filter-group">
-              <h4>Status</h4>
-              <label class="filter-option"><input type="checkbox" data-group="status" value="sold"> Include Sold Bikes</label>
+              <button type="button" class="filter-group-header" aria-expanded="true">
+                <span class="filter-group-title">Location</span>
+                <span class="filter-selected-badge" data-badge="location"></span>
+                <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="filter-group-body">
+                <div id="filter-location-options"></div>
+              </div>
             </div>
-            <button type="button" class="btn btn-outline btn-block btn-sm" data-clear-all>Clear All Filters</button>
+
+            <!-- Status -->
+            <div class="filter-group">
+              <button type="button" class="filter-group-header" aria-expanded="true">
+                <span class="filter-group-title">Status</span>
+                <span class="filter-selected-badge" data-badge="status"></span>
+                <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              <div class="filter-group-body">
+                <label class="filter-option"><input type="checkbox" data-group="status" value="sold"> Include Sold Bikes</label>
+              </div>
+            </div>
+            <button type="button" class="btn btn-outline btn-block btn-sm" data-clear-all style="margin-top:14px;">Clear All Filters</button>
           </div>
         </aside>
 
-        <!-- Results -->
+        <!-- Results Column -->
         <div class="inventory-results">
-          <div class="inventory-toolbar">
-            <button type="button" class="filter-trigger-mobile" id="filter-trigger-mobile">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-              Filters
-            </button>
-            <p class="results-count"><strong id="results-count-num">0</strong> Bikes Found</p>
-            <div class="toolbar-right">
-              <select class="sort-select" id="sort-select">
-                <option value="featured">Sort: Featured</option>
+          <!-- E-Commerce Structured Header: Breadcrumbs + Results Count + Search + Horizontal Sort Tabs -->
+          <div class="inventory-header-card">
+            <div class="results-head-top">
+              <div class="results-meta">
+                <nav class="breadcrumbs" aria-label="Breadcrumb">
+                  <a href="index.html">Home</a> &rsaquo; <span>Explore Bikes</span>
+                </nav>
+                <h1 class="results-heading">
+                  Showing <span id="showing-range">1 – 12</span> of <strong id="results-count-num">0</strong> results
+                  <span id="search-query-tag" class="search-query-tag" style="display:none;"></span>
+                </h1>
+              </div>
+              <div class="results-search-wrap">
+                <div class="search-bar inline-search">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                  <input type="search" id="inventory-search" placeholder="Search Royal Enfield, R15, KTM...">
+                </div>
+              </div>
+            </div>
+
+            <div class="sort-tabs-bar">
+              <span class="sort-by-label">Sort By</span>
+              <button type="button" class="sort-tab active" data-sort="featured" aria-selected="true">Featured</button>
+              <button type="button" class="sort-tab" data-sort="price-low" aria-selected="false">Price -- Low to High</button>
+              <button type="button" class="sort-tab" data-sort="price-high" aria-selected="false">Price -- High to Low</button>
+              <button type="button" class="sort-tab" data-sort="newest" aria-selected="false">Newest First</button>
+              <button type="button" class="sort-tab" data-sort="km-low" aria-selected="false">Lowest KM</button>
+              <button type="button" class="filter-trigger-mobile" id="filter-trigger-mobile">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                Filters
+              </button>
+              <select class="sort-select visually-hidden" id="sort-select" aria-label="Sort options">
+                <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="newest">Newest First</option>
@@ -135,6 +186,8 @@
               </select>
             </div>
           </div>
+
+          <div class="active-filters" id="active-filters"></div>
 
           <div class="bike-grid" id="inventory-grid"></div>
 
@@ -164,30 +217,69 @@
     <h3 style="font-family:var(--font-display); font-size:18px;">Filters</h3>
     <button type="button" id="filter-drawer-close" aria-label="Close filters" style="background:none;border:none;font-size:22px;">&times;</button>
   </div>
+  <!-- Budget -->
   <div class="filter-group">
-    <h4>Budget</h4>
-    <label class="filter-option"><input type="checkbox" data-group="budget" value="under50"> Under ₹50K</label>
-    <label class="filter-option"><input type="checkbox" data-group="budget" value="50to1l"> ₹50K – ₹1L</label>
-    <label class="filter-option"><input type="checkbox" data-group="budget" value="1to2l"> ₹1L – ₹2L</label>
-    <label class="filter-option"><input type="checkbox" data-group="budget" value="premium"> Premium (₹2L+)</label>
+    <button type="button" class="filter-group-header" aria-expanded="true">
+      <span class="filter-group-title">Budget</span>
+      <span class="filter-selected-badge" data-badge="budget"></span>
+      <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="filter-group-body">
+      <label class="filter-option"><input type="checkbox" data-group="budget" value="under50"> Under ₹50K</label>
+      <label class="filter-option"><input type="checkbox" data-group="budget" value="50to1l"> ₹50K – ₹1L</label>
+      <label class="filter-option"><input type="checkbox" data-group="budget" value="1to2l"> ₹1L – ₹2L</label>
+      <label class="filter-option"><input type="checkbox" data-group="budget" value="premium"> Premium (₹2L+)</label>
+    </div>
   </div>
+
+  <!-- Brand -->
   <div class="filter-group">
-    <h4>Brand</h4>
-    <div id="filter-brand-options-mobile"></div>
+    <button type="button" class="filter-group-header" aria-expanded="true">
+      <span class="filter-group-title">Brand</span>
+      <span class="filter-selected-badge" data-badge="brand"></span>
+      <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="filter-group-body">
+      <div id="filter-brand-options-mobile"></div>
+    </div>
   </div>
+
+  <!-- Ownership -->
   <div class="filter-group">
-    <h4>Ownership</h4>
-    <label class="filter-option"><input type="checkbox" data-group="ownership" value="1st Owner"> 1st Owner</label>
-    <label class="filter-option"><input type="checkbox" data-group="ownership" value="2nd Owner"> 2nd Owner</label>
-    <label class="filter-option"><input type="checkbox" data-group="ownership" value="3rd Owner"> 3rd Owner</label>
+    <button type="button" class="filter-group-header" aria-expanded="true">
+      <span class="filter-group-title">Ownership</span>
+      <span class="filter-selected-badge" data-badge="ownership"></span>
+      <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="filter-group-body">
+      <label class="filter-option"><input type="checkbox" data-group="ownership" value="1st Owner"> 1st Owner</label>
+      <label class="filter-option"><input type="checkbox" data-group="ownership" value="2nd Owner"> 2nd Owner</label>
+      <label class="filter-option"><input type="checkbox" data-group="ownership" value="3rd Owner"> 3rd Owner</label>
+    </div>
   </div>
+
+  <!-- Location -->
   <div class="filter-group">
-    <h4>Location</h4>
-    <div id="filter-location-options-mobile"></div>
+    <button type="button" class="filter-group-header" aria-expanded="true">
+      <span class="filter-group-title">Location</span>
+      <span class="filter-selected-badge" data-badge="location"></span>
+      <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="filter-group-body">
+      <div id="filter-location-options-mobile"></div>
+    </div>
   </div>
+
+  <!-- Status -->
   <div class="filter-group">
-    <h4>Status</h4>
-    <label class="filter-option"><input type="checkbox" data-group="status" value="sold"> Include Sold Bikes</label>
+    <button type="button" class="filter-group-header" aria-expanded="true">
+      <span class="filter-group-title">Status</span>
+      <span class="filter-selected-badge" data-badge="status"></span>
+      <svg class="filter-group-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="filter-group-body">
+      <label class="filter-option"><input type="checkbox" data-group="status" value="sold"> Include Sold Bikes</label>
+    </div>
   </div>
   <div class="filter-drawer-foot">
     <button type="button" class="btn btn-outline btn-block" data-clear-all>Clear All</button>
