@@ -19,7 +19,7 @@ const bikeSchema = new mongoose.Schema({
     },
     mileage: {
         type: Number,
-        required: true
+        default: 0
     },
     images: {
         type: [String], // Store Base64 strings for now
@@ -35,5 +35,7 @@ const bikeSchema = new mongoose.Schema({
         default: Date.now
     }
 });
+
+bikeSchema.index({ uploadDate: -1 });
 
 module.exports = mongoose.model('Bike', bikeSchema);

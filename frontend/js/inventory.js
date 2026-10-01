@@ -6,6 +6,9 @@
  */
 
 let __bikesCache = null;
+const CACHE_STORAGE_KEY = 'hhbb_inventory_cache_v6';
+const CACHE_TIME_KEY = 'hhbb_inventory_cache_time_v6';
+const CACHE_TTL_MS = 2 * 60 * 1000; // 2 minutes fresh
 
 window.resolveImageSrc = function (imgStr) {
   if (!imgStr) return "";
@@ -13,45 +16,163 @@ window.resolveImageSrc = function (imgStr) {
   return '../' + imgStr;
 };
 
-function loadBikes() {
-  if (__bikesCache) return Promise.resolve(__bikesCache);
-  const url = (typeof CONFIG !== 'undefined' && CONFIG.apiUrl) 
+function normalizeBike(b) {
+  if (!b) return b;
+  if (b._id) b.id = b._id;
+  if (!b.status) b.status = "available";
+  if (!b.location) b.location = "Hyderabad";
+
+  if (!b.model) {
+    const lowerName = (b.name || "").toLowerCase();
+    const lowerBrand = (b.brand || "").toLowerCase();
+    if (lowerBrand && lowerName.startsWith(lowerBrand)) {
+      b.model = (b.name || "").substring(lowerBrand.length).trim();
+    } else {
+      b.model = b.name || "";
+    }
+  }
+
+  if (!b.owner) b.owner = "1st Owner";
+  if (!b.fuel) b.fuel = "Petrol";
+  if (!b.registration) b.registration = "N/A";
+  if (!b.insurance) b.insurance = "N/A";
+
+  if (!b.images || b.images.length === 0) b.images = [];
+  if (b.image && b.images.length === 0) b.images.push(b.image);
+  return b;
+}
+
+function getCachedBikes() {
+  try {
+    const raw = localStorage.getItem(CACHE_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      parsed.forEach(normalizeBike);
+      return parsed;
+    }
+  } catch (e) {
+    console.warn("Error reading bikes cache:", e);
+  }
+  return null;
+}
+
+function saveBikesCache(bikes) {
+  try {
+    localStorage.setItem(CACHE_STORAGE_KEY, JSON.stringify(bikes));
+    localStorage.setItem(CACHE_TIME_KEY, String(Date.now()));
+  } catch (e) {
+    console.warn("Storage full or unavailable for bikes cache:", e);
+  }
+}
+
+function loadBikes(forceRefresh = false) {
+  if (__bikesCache && !forceRefresh) return Promise.resolve(__bikesCache);
+
+  const cached = getCachedBikes();
+  const cacheTime = parseInt(localStorage.getItem(CACHE_TIME_KEY) || '0', 10);
+  const isFresh = (Date.now() - cacheTime) < CACHE_TTL_MS;
+
+  const apiUrl = (typeof CONFIG !== 'undefined' && CONFIG.apiUrl) 
     ? `${CONFIG.apiUrl}/bikes` 
     : "https://hariharabikebazar.onrender.com/api/bikes";
-  return fetch(url)
-    .then((res) => {
-      if (!res.ok) throw new Error("Failed to load inventory");
-      return res.json();
-    })
-    .then((data) => {
-      // Map _id to id for frontend compatibility
-      data.forEach(b => {
-        if (b._id) b.id = b._id;
-        if (!b.status) b.status = "available";
-        if (!b.location) b.location = "Hyderabad";
-        if (!b.km) b.km = parseInt(b.mileage || 0);
 
-        if (!b.model) {
-          const lowerName = (b.name || "").toLowerCase();
-          const lowerBrand = (b.brand || "").toLowerCase();
-          if (lowerBrand && lowerName.startsWith(lowerBrand)) {
-            b.model = (b.name || "").substring(lowerBrand.length).trim();
-          } else {
-            b.model = b.name || "";
-          }
-        }
+  const fetchFromApi = () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
 
-        if (!b.owner) b.owner = "1st Owner";
-        if (!b.fuel) b.fuel = "Petrol";
-        if (!b.registration) b.registration = "N/A";
-        if (!b.insurance) b.insurance = "N/A";
-
-        if (!b.images || b.images.length === 0) b.images = [];
-        if (b.image && b.images.length === 0) b.images.push(b.image);
+    return fetch(apiUrl, { signal: controller.signal })
+      .then((res) => {
+        clearTimeout(timeoutId);
+        if (!res.ok) throw new Error("API returned status " + res.status);
+        return res.json();
+      })
+      .then((data) => {
+        if (!Array.isArray(data) || data.length === 0) throw new Error("Empty bikes array");
+        data.forEach(normalizeBike);
+        __bikesCache = data;
+        saveBikesCache(data);
+        window.dispatchEvent(new CustomEvent('bikes-updated', { detail: data }));
+        return data;
       });
-      __bikesCache = data;
-      return data;
-    });
+  };
+
+  const fetchStaticFallback = () => {
+    return fetch('../data/bikes.json')
+      .then((res) => {
+        if (!res.ok) return fetch('data/bikes.json');
+        return res;
+      })
+      .then((res) => {
+        if (!res.ok) throw new Error("Static fallback not available");
+        return res.json();
+      })
+      .then((data) => {
+        data.forEach(normalizeBike);
+        if (!__bikesCache) {
+          __bikesCache = data;
+          saveBikesCache(data);
+        }
+        return data;
+      });
+  };
+
+  // If cached data is present, serve it INSTANTLY (0ms!)
+  if (cached && cached.length > 0) {
+    __bikesCache = cached;
+    if (!isFresh || forceRefresh) {
+      fetchFromApi().catch((err) => {
+        console.warn("Background inventory refresh notice:", err.message);
+      });
+    }
+    return Promise.resolve(cached);
+  }
+
+  // First time visitor: Start API fetch, fallback to static CDN data if API is slow (cold start) or errors
+  return new Promise((resolve, reject) => {
+    let resolved = false;
+
+    fetchFromApi()
+      .then((data) => {
+        if (!resolved) {
+          resolved = true;
+          resolve(data);
+        }
+      })
+      .catch((apiErr) => {
+        console.warn("API load failed, using static inventory backup:", apiErr.message);
+        if (!resolved) {
+          fetchStaticFallback()
+            .then((data) => {
+              if (!resolved) {
+                resolved = true;
+                resolve(data);
+              }
+            })
+            .catch((staticErr) => {
+              if (!resolved) {
+                resolved = true;
+                reject(apiErr);
+              }
+            });
+        }
+      });
+
+    // If API takes longer than 2.5 seconds (e.g. Render server cold start), show static data first!
+    setTimeout(() => {
+      if (!resolved) {
+        fetchStaticFallback()
+          .then((data) => {
+            if (!resolved) {
+              resolved = true;
+              console.log("Serving instant static inventory while backend starts...");
+              resolve(data);
+            }
+          })
+          .catch(() => {});
+      }
+    }, 2500);
+  });
 }
 
 const ICONS = {
@@ -98,7 +219,7 @@ function bikeCardHTML(bike) {
   const mediaClass = "bike-card-media" + (img ? "" : " no-image");
 
   return `
-  <article class="bike-card" data-id="${bike.id}" data-price="${bike.price}" data-brand="${bike.brand}" data-year="${bike.year}" data-km="${bike.km}" data-status="${bike.status}" data-location="${bike.location}">
+  <article class="bike-card" data-id="${bike.id}" data-price="${bike.price}" data-brand="${bike.brand}" data-year="${bike.year}" data-status="${bike.status}" data-location="${bike.location}">
     <a class="${mediaClass}" href="bike.html?id=${bike.id}" aria-label="View ${bike.brand} ${bike.model} details">
       ${mediaInner}
     </a>
@@ -106,7 +227,6 @@ function bikeCardHTML(bike) {
       <h3 class="bike-card-title"><a href="bike.html?id=${bike.id}">${bike.brand} ${bike.model}</a></h3>
       <div class="bike-card-meta">
         <span>${ICONS.calendar} ${bike.year}</span>
-        <span>${ICONS.speed} ${bike.km.toLocaleString("en-IN")} km</span>
         <span>${ICONS.pin} ${bike.location}</span>
       </div>
       <div class="bike-card-price-row">
@@ -162,47 +282,57 @@ function featuredImageCardHTML(bike) {
   </article>`;
 }
 
-/* ---------- Homepage: Featured Rides (image carousel) ---------- */
+/* ---------- Homepage: Featured Rides (Marquee & Carousel) ---------- */
 function initFeaturedRides() {
+  const marqueeTrack = document.getElementById("featured-marquee-track") || document.querySelector(".marquee-track");
   const grid = document.getElementById("featured-grid");
-  if (!grid) return;
 
-  grid.innerHTML = `
-    <div class="featured-carousel">
-      <div class="carousel-viewport" id="carousel-viewport">
-        <div class="carousel-track" id="carousel-track"></div>
-      </div>
-      <button class="carousel-nav carousel-prev" type="button" aria-label="Previous images">
-        ${chevronSVG(CHEVRON.left, 2.5)}
-      </button>
-      <button class="carousel-nav carousel-next" type="button" aria-label="Next images">
-        ${chevronSVG(CHEVRON.right, 2.5)}
-      </button>
-      <div class="carousel-dots" id="carousel-dots"></div>
-    </div>`;
-
-  const viewport = grid.querySelector(".carousel-viewport");
-  const track = grid.querySelector(".carousel-track");
-  const prevBtn = grid.querySelector(".carousel-prev");
-  const nextBtn = grid.querySelector(".carousel-next");
-  const dotsWrap = grid.querySelector(".carousel-dots");
-
-  renderSkeletons(track, 4);
+  if (!marqueeTrack && !grid) return;
 
   loadBikes()
     .then((bikes) => {
-      const featured = bikes.filter((b) => b.featured && b.status !== "sold").slice(0, 8);
-      const list = featured.length ? featured : bikes.slice(0, 8);
-      if (!list.length) {
-        grid.innerHTML = `<p class="empty-state">No featured rides yet.</p>`;
-        return;
+      const available = bikes.filter((b) => b.status !== "sold");
+      const list = available.length ? available.slice(0, 10) : bikes.slice(0, 10);
+      if (!list.length) return;
+
+      if (marqueeTrack) {
+        // Build cards with real bike photos and links
+        const cardsHtml = list.map((b) => featuredImageCardHTML(b)).join("");
+        // Duplicate cards for a seamless infinite loop animation
+        marqueeTrack.innerHTML = cardsHtml + cardsHtml;
       }
-      track.innerHTML = list
-        .map((b) => `<div class="carousel-slide">${featuredImageCardHTML(b)}</div>`)
-        .join("");
-      setupCarousel(viewport, track, prevBtn, nextBtn, dotsWrap);
+
+      if (grid) {
+        grid.innerHTML = `
+          <div class="featured-carousel">
+            <div class="carousel-viewport" id="carousel-viewport">
+              <div class="carousel-track" id="carousel-track"></div>
+            </div>
+            <button class="carousel-nav carousel-prev" type="button" aria-label="Previous images">
+              ${chevronSVG(CHEVRON.left, 2.5)}
+            </button>
+            <button class="carousel-nav carousel-next" type="button" aria-label="Next images">
+              ${chevronSVG(CHEVRON.right, 2.5)}
+            </button>
+            <div class="carousel-dots" id="carousel-dots"></div>
+          </div>`;
+
+        const viewport = grid.querySelector(".carousel-viewport");
+        const track = grid.querySelector(".carousel-track");
+        const prevBtn = grid.querySelector(".carousel-prev");
+        const nextBtn = grid.querySelector(".carousel-next");
+        const dotsWrap = grid.querySelector(".carousel-dots");
+
+        track.innerHTML = list
+          .map((b) => `<div class="carousel-slide">${featuredImageCardHTML(b)}</div>`)
+          .join("");
+        setupCarousel(viewport, track, prevBtn, nextBtn, dotsWrap);
+      }
     })
-    .catch(() => renderErrorState(grid));
+    .catch((err) => {
+      console.warn("Could not load featured rides:", err);
+      if (grid) renderErrorState(grid);
+    });
 }
 
 /* ---------- Homepage: "What's your budget?" explorer ----------

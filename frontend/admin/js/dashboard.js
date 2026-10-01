@@ -129,12 +129,32 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('recentBikesCount').textContent = recentCount;
     }
 
-    // Helper to read file to base64
-    function readFileAsBase64(file) {
+    // Helper to read and compress file to optimized base64
+    function compressAndReadImage(file, maxDimension = 1200, quality = 0.78) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = e => resolve(e.target.result);
-            reader.onerror = e => reject(e);
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    let w = img.width;
+                    let h = img.height;
+                    const max = Math.max(w, h);
+                    if (max > maxDimension) {
+                        const ratio = maxDimension / max;
+                        w = Math.round(w * ratio);
+                        h = Math.round(h * ratio);
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = () => resolve(e.target.result); // Fallback to raw if decode fails
+                img.src = e.target.result;
+            };
+            reader.onerror = (e) => reject(e);
             reader.readAsDataURL(file);
         });
     }
@@ -147,14 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const submitBtn = addBikeForm.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Uploading...';
+            submitBtn.textContent = 'Optimizing & Uploading...';
 
             try {
                 let base64Images = [];
                 for (let i = 0; i < 5; i++) {
                     const fileInput = document.getElementById(`add-file-${i}`);
                     if (fileInput && fileInput.files && fileInput.files[0]) {
-                        const b64 = await readFileAsBase64(fileInput.files[0]);
+                        const b64 = await compressAndReadImage(fileInput.files[0]);
                         base64Images.push(b64);
                     }
                 }
@@ -171,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     brand: document.getElementById('bikeBrand').value,
                     price: document.getElementById('bikePrice').value,
                     year: document.getElementById('bikeYear').value,
-                    mileage: document.getElementById('bikeMileage').value,
                     images: base64Images,
                     description: document.getElementById('bikeDescription').value,
                 };
@@ -219,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (fileInput && fileInput.files && fileInput.files[0]) {
                         // User uploaded a new file for this zone
-                        const b64 = await readFileAsBase64(fileInput.files[0]);
+                        const b64 = await compressAndReadImage(fileInput.files[0]);
                         base64Images.push(b64);
                     } else if (existingInput && existingInput.value) {
                         // Use existing image
@@ -239,7 +258,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     brand: document.getElementById('editBikeBrand').value,
                     price: document.getElementById('editBikePrice').value,
                     year: document.getElementById('editBikeYear').value,
-                    mileage: document.getElementById('editBikeMileage').value,
                     images: base64Images,
                     description: document.getElementById('editBikeDescription').value,
                 };
@@ -271,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editBikeBrand').value = bike.brand || '';
         document.getElementById('editBikePrice').value = bike.price || '';
         document.getElementById('editBikeYear').value = bike.year || '';
-        document.getElementById('editBikeMileage').value = bike.mileage || '';
         document.getElementById('editBikeDescription').value = bike.description || '';
 
         // Reset inputs and previews

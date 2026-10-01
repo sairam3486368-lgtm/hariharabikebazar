@@ -2,6 +2,7 @@ require('dotenv').config();
 const dns = require('dns');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 const express = require('express');
+const compression = require('compression');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Bike = require('./models/Bike');
@@ -9,6 +10,7 @@ const Admin = require('./models/Admin');
 
 const app = express();
 
+app.use(compression());
 // Increase JSON payload limit because Base64 images can be large
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
@@ -84,11 +86,34 @@ app.post('/api/auth/login', async (req, res) => {
 
 // --- Bike Routes ---
 
-// Get all bikes
+// Get all bikes (fast listing: 1 thumbnail image by default, or full if requested)
 app.get('/api/bikes', async (req, res) => {
     try {
-        const bikes = await Bike.find().sort({ uploadDate: -1 });
+        const full = req.query.full === 'true';
+        const projection = full ? {} : {
+            name: 1,
+            brand: 1,
+            price: 1,
+            year: 1,
+            description: 1,
+            uploadDate: 1,
+            images: { $slice: 1 }
+        };
+        const bikes = await Bike.find({}, projection).sort({ uploadDate: -1 }).lean();
+        res.set('Cache-Control', 'public, max-age=60, s-maxage=120, stale-while-revalidate=300');
         res.json(bikes);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Get single bike by id (with all images)
+app.get('/api/bikes/:id', async (req, res) => {
+    try {
+        const bike = await Bike.findById(req.params.id).lean();
+        if (!bike) return res.status(404).json({ error: 'Bike not found' });
+        res.set('Cache-Control', 'public, max-age=60, s-maxage=120, stale-while-revalidate=300');
+        res.json(bike);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

@@ -40,6 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
       renderAll();
     })
     .catch(() => renderErrorState(grid));
+
+  window.addEventListener('bikes-updated', (e) => {
+    if (e.detail && Array.isArray(e.detail) && e.detail.length > 0) {
+      ALL_BIKES = e.detail;
+      buildDynamicFilterOptions(ALL_BIKES);
+      renderAll();
+    }
+  });
 });
 
 function applyUrlParams() {
@@ -217,8 +225,6 @@ function sortBikes(bikes) {
       return copy.sort((a, b) => b.price - a.price);
     case "newest":
       return copy.sort((a, b) => b.year - a.year);
-    case "km-low":
-      return copy.sort((a, b) => a.km - b.km);
     case "featured":
     default:
       return copy.sort((a, b) => (b.featured === a.featured ? 0 : b.featured ? 1 : -1));

@@ -11,27 +11,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
+  if (!id) {
+    renderNotFound();
+    return;
+  }
 
-  loadBikes()
-    .then((bikes) => {
-      const bike = bikes.find((b) => b.id === id);
-      if (!bike) {
-        renderNotFound();
-        return;
-      }
-      currentBike = bike;
-      renderBikeDetail(bike);
-      renderSimilarBikes(bikes, bike);
-      document.title = `${bike.brand} ${bike.model} (${bike.year}) — ${CONFIG.businessName}`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute(
-          "content",
-          `${bike.brand} ${bike.model}, ${bike.year}, ${bike.km.toLocaleString("en-IN")} km, ${formatINR(bike.price)}. View details and contact ${CONFIG.businessName}.`
-        );
-      }
-    })
-    .catch(() => renderNotFound(true));
+  const singleUrl = (typeof CONFIG !== 'undefined' && CONFIG.apiUrl)
+    ? `${CONFIG.apiUrl}/bikes/${id}`
+    : `https://hariharabikebazar.onrender.com/api/bikes/${id}`;
+
+  const fetchSingle = fetch(singleUrl)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((b) => (b ? (typeof normalizeBike === 'function' ? normalizeBike(b) : b) : null))
+    .catch(() => null);
+
+  Promise.all([fetchSingle, loadBikes().catch(() => [])]).then(([singleBike, allBikes]) => {
+    const bike = singleBike || allBikes.find((b) => b.id === id || b._id === id);
+    if (!bike) {
+      renderNotFound();
+      return;
+    }
+    currentBike = bike;
+    renderBikeDetail(bike);
+    if (allBikes && allBikes.length) {
+      renderSimilarBikes(allBikes, bike);
+    }
+    document.title = `${bike.brand} ${bike.model} (${bike.year}) — ${CONFIG.businessName}`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        "content",
+        `${bike.brand} ${bike.model}, ${bike.year}, ${formatINR(bike.price)}. View details and contact ${CONFIG.businessName}.`
+      );
+    }
+  }).catch(() => renderNotFound(true));
 
   setupTestRideForm();
 });
@@ -87,7 +100,6 @@ function renderBikeDetail(bike) {
 
         <div class="spec-grid">
           <div class="spec-item"><div class="k">Year</div><div class="v">${bike.year}</div></div>
-          <div class="spec-item"><div class="k">KM Driven</div><div class="v">${bike.km.toLocaleString("en-IN")} km</div></div>
           <div class="spec-item"><div class="k">Ownership</div><div class="v">${bike.owner}</div></div>
         </div>
 
@@ -102,7 +114,7 @@ function renderBikeDetail(bike) {
 
     <div class="detail-section">
       <h2>Overview</h2>
-      <p class="section-sub mt-0">${bike.brand} ${bike.model} (${bike.year}), ${bike.condition} condition, ${bike.km.toLocaleString("en-IN")} km driven, ${bike.owner.toLowerCase()}. Located at our ${bike.location} branch.${CONFIG.DEMO_MODE ? " This listing currently shows demo/placeholder details for development purposes." : ""}</p>
+      <p class="section-sub mt-0">${bike.brand} ${bike.model} (${bike.year}), ${bike.condition} condition, ${bike.owner.toLowerCase()}. Located at our ${bike.location} branch.${CONFIG.DEMO_MODE ? " This listing currently shows demo/placeholder details for development purposes." : ""}</p>
     </div>
 
 
