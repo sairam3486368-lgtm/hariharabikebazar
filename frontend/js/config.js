@@ -20,8 +20,8 @@ const CONFIG = {
   // --- CONTACT (fill in real numbers, then every button site-wide updates) ---
   phone: "+916305963844",              // e.g. "+919999999999"
   phoneDisplay: "+91 63059 63844",    // displayed on screen
-  whatsapp: "9052069191",              // WhatsApp mobile number (9052069191)
-  whatsappDisplay: "+91 90520 69191", // displayed on screen
+  whatsapp: "8328381851",              // WhatsApp mobile number (8328381851)
+  whatsappDisplay: "+91 83283 81851", // displayed on screen
   address: "Kukatpally, Hyderabad, Telangana",
   hours: "Mon – Sun: 9:30 AM – 8:30 PM",
 

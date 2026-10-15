@@ -57,7 +57,7 @@ function renderNotFound(loadError) {
       <p>It may have been sold, removed, or the link may be incorrect.</p>
       <div class="empty-actions">
         <a class="btn btn-primary" href="bikes.html">Browse All Bikes</a>
-        <a class="btn btn-whatsapp" data-whatsapp-link href="https://wa.me/919052069191" target="_blank" rel="noopener">WhatsApp Us (+91 90520 69191)</a>
+        <a class="btn btn-whatsapp" data-whatsapp-link href="https://wa.me/918328381851" target="_blank" rel="noopener">WhatsApp Us (+91 83283 81851)</a>
       </div>
     </div>`;
   applyConfigToDOM();

@@ -3579,3 +3579,286 @@ div[class*="netlify-drawer"] {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+/* ============================================================
+   DASARA FESTIVAL MEGA BIKE MELA POPUP MODAL
+   ============================================================ */
+.dasara-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 6, 2, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dasara-modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dasara-modal-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  max-height: 94vh;
+  background: linear-gradient(145deg, #1f0702 0%, #2e0d04 50%, #150302 100%);
+  border: 2px solid #ff9d00;
+  border-radius: 20px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 0 45px rgba(255, 145, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dasara-modal-backdrop.active .dasara-modal-wrapper {
+  transform: scale(1) translateY(0);
+}
+
+.dasara-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.95);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dasara-modal-close:hover {
+  background: #ff1111;
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.7);
+}
+
+.dasara-modal-scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 94vh;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dasara-image-link {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  background: #120301;
+  text-decoration: none;
+}
+
+.dasara-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.dasara-image-link:hover .dasara-banner-img {
+  transform: scale(1.015);
+}
+
+.dasara-modal-footer {
+  padding: 16px 20px 20px;
+  background: linear-gradient(180deg, rgba(30, 8, 3, 0.98) 0%, rgba(18, 4, 1, 0.99) 100%);
+  border-top: 1px solid rgba(255, 160, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dasara-footer-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dasara-badge {
+  background: rgba(255, 145, 0, 0.16);
+  border: 1px solid rgba(255, 170, 0, 0.45);
+  color: #ffc247;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dasara-bike-chips-title {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #e5a060;
+  text-align: center;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dasara-bike-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dasara-chip-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.dasara-chip-btn:hover {
+  background: #25d366;
+  border-color: #25d366;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+
+.dasara-chip-btn span.chip-price {
+  color: #ffc247;
+  font-weight: 700;
+}
+.dasara-chip-btn:hover span.chip-price {
+  color: #ffffff;
+}
+
+.dasara-action-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.dasara-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #25d366;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 13px 26px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 380px;
+}
+
+.dasara-action-btn:hover {
+  background: #20bd5a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.55);
+  color: #ffffff;
+}
+
+.dasara-tap-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: #ffa550;
+  font-weight: 600;
+}
+
+/* Floating trigger pill for re-opening after closing */
+.dasara-floating-pill {
+  position: fixed;
+  bottom: 84px;
+  left: 20px;
+  z-index: 999;
+  background: linear-gradient(135deg, #ff7a00 0%, #d82300 100%);
+  color: #ffffff;
+  border: 2px solid #ffd277;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 800;
+  font-size: 13px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(216, 35, 0, 0.5), 0 0 16px rgba(255, 122, 0, 0.4);
+  animation: dasaraPulse 2.5s infinite;
+  transition: transform 0.2s ease;
+}
+
+.dasara-floating-pill.visible {
+  display: inline-flex;
+}
+
+.dasara-floating-pill:hover {
+  transform: scale(1.05) translateY(-2px);
+}
+
+@keyframes dasaraPulse {
+  0% { box-shadow: 0 8px 24px rgba(216, 35, 0, 0.4), 0 0 0 0 rgba(255, 122, 0, 0.5); }
+  50% { box-shadow: 0 8px 24px rgba(216, 35, 0, 0.6), 0 0 0 10px rgba(255, 122, 0, 0); }
+  100% { box-shadow: 0 8px 24px rgba(216, 35, 0, 0.4), 0 0 0 0 rgba(255, 122, 0, 0); }
+}
+
+@media (max-width: 640px) {
+  .dasara-modal-wrapper {
+    max-width: 95vw;
+    border-radius: 14px;
+  }
+  .dasara-modal-close {
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+  }
+  .dasara-modal-footer {
+    padding: 12px 14px 16px;
+    gap: 10px;
+  }
+  .dasara-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  .dasara-action-btn {
+    font-size: 14px;
+    padding: 11px 18px;
+  }
+  .dasara-floating-pill {
+    bottom: 74px;
+    left: 12px;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}

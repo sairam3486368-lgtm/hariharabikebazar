@@ -36,8 +36,8 @@ app.get('/api/contact', (req, res) => {
     res.status(200).json({
         phone: process.env.PHONE_NUMBER || "6305963844",
         phoneDisplay: "+91 63059 63844",
-        whatsapp: process.env.WHATSAPP_NUMBER || "9052069191",
-        whatsappDisplay: "+91 90520 69191"
+        whatsapp: process.env.WHATSAPP_NUMBER || "8328381851",
+        whatsappDisplay: "+91 83283 81851"
     });
 });
 

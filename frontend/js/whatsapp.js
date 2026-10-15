@@ -41,6 +41,26 @@ function waMessageForSell(data) {
   );
 }
 
+function waMessageForDasara(bikeName) {
+  if (bikeName) {
+    return (
+      `Hi ${CONFIG.businessName}, I saw your Dasara Mega Bike Mela festival offer!\n\n` +
+      `Bike Interested: ${bikeName}\n` +
+      `Special Offers: 5 Litres Free Petrol + Exchange Bonus up to ₹5,000 + Low Down Payment.\n\n` +
+      `Please share availability and test ride details.`
+    );
+  }
+  return (
+    `Hi ${CONFIG.businessName}, I saw your Dasara Mega Bike Mela festival offer!\n\n` +
+    `Offers interested in:\n` +
+    `• 5 Litres Petrol Free (with BS4 vehicles)\n` +
+    `• Exchange Bonus up to ₹5,000\n` +
+    `• Vijayadashami Special Low Down Payment\n\n` +
+    `Please share your available festive bikes and offers!`
+  );
+}
+
 function openWhatsApp(message) {
   window.open(buildWhatsAppUrl(message), "_blank", "noopener");
 }
+
